@@ -1,0 +1,372 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Linux Droplet Configuration</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #f8f8f2;
+  background-color: #272822;
+}
+.highlight .err {
+  color: #151515;
+  background-color: #ac4142;
+}
+.highlight .c, .highlight .cd, .highlight .cm, .highlight .c1, .highlight .cs {
+  color: #505050;
+}
+.highlight .cp {
+  color: #f4bf75;
+}
+.highlight .nt {
+  color: #f4bf75;
+}
+.highlight .o, .highlight .ow {
+  color: #d0d0d0;
+}
+.highlight .p, .highlight .pi {
+  color: #d0d0d0;
+}
+.highlight .gi {
+  color: #90a959;
+}
+.highlight .gd {
+  color: #ac4142;
+}
+.highlight .gh {
+  color: #6a9fb5;
+  background-color: #151515;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #aa759f;
+}
+.highlight .kc {
+  color: #d28445;
+}
+.highlight .kt {
+  color: #d28445;
+}
+.highlight .kd {
+  color: #d28445;
+}
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #90a959;
+}
+.highlight .sr {
+  color: #75b5aa;
+}
+.highlight .si {
+  color: #8f5536;
+}
+.highlight .se {
+  color: #8f5536;
+}
+.highlight .nn {
+  color: #f4bf75;
+}
+.highlight .nc {
+  color: #f4bf75;
+}
+.highlight .no {
+  color: #f4bf75;
+}
+.highlight .na {
+  color: #6a9fb5;
+}
+.highlight .m, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mb, .highlight .mx {
+  color: #90a959;
+}
+.highlight .ss {
+  color: #90a959;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="images/logo.png" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc">
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="introduction">Introduction</h1>
+
+<p>In this guide, we will discuss how to install Laravel on Ubuntu 14.04. We will be using Nginx as our web server and will be working with the most recent version of Laravel at the time of this writing, version 5.2.</p>
+
+<h1 id="authentication">Authentication</h1>
+
+<blockquote>
+<p>To authenticate via ssh, use this code:</p>
+</blockquote>
+<pre class="highlight shell"><code>ssh user@ip
+
+</code></pre>
+
+<p>replace the user and ip upon the configuration.</p>
+
+<h1 id="install-git">Install GIT</h1>
+<pre class="highlight shell"><code>sudo apt-get install git
+
+</code></pre>
+
+<p>type <code class="prettyprint">git --version</code> in the terminal to make sure it is properly installed when it&rsquo;s done.</p>
+
+<h1 id="install-webserver">Install Webserver</h1>
+
+<h2 id="dependencies">Dependencies</h2>
+
+<blockquote>
+<p>update the server packages</p>
+</blockquote>
+<pre class="highlight shell"><code>sudo apt-get update
+sudo apt-get install python-software-properties
+sudo add-apt-repository ppa:ondrej/php5-5.6
+sudo apt-get update
+</code></pre>
+
+<p>In case <code class="prettyprint">apt-get update</code> fails and asks for a certain key:
+<p>
+Go to <a href="http://keyserver.ubuntu.com/">Ubuntu Key-server</a> where you can search your key (for ex: 6AF0E1940624A220). </p>
+
+<aside class="notice">While searching for key pre-append the key with 0x. So search for 0x6AF0E1940624A220.</aside>
+
+<p>Click on the link provided in the pub section. This should take you to page containing the key. It should start with something like Public Key Server &ndash; Get &ldquo;0x6AF0E1940624A220&rdquo;
+Copy the whole text from the page and save it in a file (say filename is key1).
+Once you have copied the data to file, Save it. Then run the following command:</p>
+
+<p><code class="prettyprint">sudo apt-key add key1</code></p>
+
+<p>You will get an &ldquo;OK&rdquo; response, and you are done. Repeat the procedure of other keys that might be missing.
+<p></p>
+
+<h2 id="webserver">Webserver</h2>
+<pre class="highlight shell"><code>sudo apt-get install nginx-full php5-fpm php5-cli php5-mcrypt php5-mysql mysql-server dnsmasq php5 php5-common php5-curl php5-dev php5-gd php5-imagick php5-memcache php5-pspell php5-sqlite php5-xmlrpc php5-xsl php-pear libssh2-php php5-cli
+</code></pre>
+
+<p>The following commands will install all the webserver packages 
+<ul>
+  <li>nginx</li>
+  <li>php</li>
+  <li>curl</li>
+  <li>mysql</li>
+  <li>php extensions</li>
+</ul></p>
+
+<p>MySQL will prompt you a password. it is safer not to leave it empty. in this example we will set the follwing password: <code class="prettyprint">GM@$e#16</code></p>
+
+<p>type <code class="prettyprint">php -v</code> and <code class="prettyprint">curl --version</code> in the terminal to see the versions installed.</p>
+
+<h2 id="php-mcrypt-extenstion">PHP Mcrypt Extenstion</h2>
+<pre class="highlight shell"><code>sudo apt-get install php5-mcrypt
+sudo php5enmod mcrypt
+</code></pre>
+
+<blockquote>
+<p>Make sure mcrypt.ini has: extension=mcrypt.so, if not add it</p>
+</blockquote>
+<pre class="highlight shell"><code>sudo vi <span class="se">\e</span>tc<span class="se">\p</span>hp5<span class="se">\m</span>ods-available<span class="se">\m</span>crypt.ini
+</code></pre>
+
+<p>Laravel requires the php mcrypt extension.</p>
+
+<h1 id="install-composer">Install Composer</h1>
+<pre class="highlight shell"><code>sudo curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+sudo composer update -vvv --profile
+</code></pre>
+
+<p>Laravel utilizes Composer to manage its dependencies. So, before using Laravel, make sure you have Composer installed on your machine.</p>
+
+<aside class="notice">if you browse through the directories, (for ex: cd /etc) make sure to comeback to the home directory by typing `cd ~` and run the commands from there</aside>
+
+<p>If your server have small memory, you might have an error thrown <code class="prettyprint">composer lack of memory...</code> 
+To fix it, do the following: </p>
+<pre class="highlight shell"><code><span class="nb">cd</span> ~
+sudo dd <span class="k">if</span><span class="o">=</span>/dev/zero <span class="nv">of</span><span class="o">=</span>/swapfile <span class="nv">bs</span><span class="o">=</span>1024 <span class="nv">count</span><span class="o">=</span>512k
+mkswap /swapfile
+swapon /swapfile
+</code></pre>
+
+<h1 id="configure-mysql">Configure MySQL</h1>
+<pre class="highlight shell"><code>sudo mysql_secure_installation
+</code></pre>
+
+<p>It will prompt you a series of question:
+<ul>
+  <li>Change the root password? [Y/n] n</li>
+  <li>Remove anonymous users? [Y/n] <b>y</b></li>
+  <li>Disallow root login remotely? [Y/n] <b>n</b></li>
+  <li>Remove test database and access to it? [Y/n] <b>n</b></li>
+  <li>Reload privilege tables now? [Y/n] <b>y</b></li>
+</ul></p>
+
+<blockquote>
+<p>Create a database</p>
+</blockquote>
+<pre class="highlight shell"><code>mysql -u root -p
+
+show databases;
+CREATE DATABASE test_db;
+USE test_db;
+</code></pre>
+
+<blockquote>
+<p>Create a user and assign priviliges</p>
+</blockquote>
+<pre class="highlight shell"><code>CREATE USER <span class="s1">'test_user'</span>@<span class="s1">'localhost'</span> IDENTIFIED BY <span class="s1">'@!@##123LLkkp@'</span>;
+GRANT ALL ON test_db.<span class="k">*</span> TO <span class="s1">'test_user'</span>@<span class="s1">'localhost'</span>;
+FLUSH PRIVILEGES;
+</code></pre>
+
+<blockquote>
+<p>To access the database created with its user</p>
+</blockquote>
+<pre class="highlight shell"><code>mysql -u test_user -p test_db
+show tables;
+</code></pre>
+
+<blockquote>
+<p>Configure some variables</p>
+</blockquote>
+<pre class="highlight shell"><code>sudo vi /etc/mysql/my.cnf
+<span class="c">#add the fields at under #mysqld</span>
+ft_stopword_file <span class="o">=</span> <span class="s2">""</span>
+<span class="nv">ft_min_word_len</span><span class="o">=</span> 3
+</code></pre>
+
+<p>What you will be doing next is create a database, create a user, grant him priviliges and assign it to the database created.</p>
+
+<h1 id="domain-configuration">Domain Configuration</h1>
+
+<p>Create your first project in your <code class="prettyprint">/home/{user}/mydomain.com</code> directory. Weither it&rsquo;s by a git pull or composer laravel installation.
+Create the sites-available file and its symlink in sites enabled to point it to the domain.</p>
+<pre class="highlight shell"><code><span class="c">#start nginx server</span>
+sudo service nginx start
+
+<span class="c">#create its sites-available configuration file</span>
+<span class="nb">cd</span> /etc/nginx/sites-available
+sudo vi mydomain.com
+</code></pre>
+<pre class="highlight shell"><code><span class="c">#sites-available configuration file:</span>
+server <span class="o">{</span>
+    listen 80;
+    server_name mydomain.com;
+    root /home/<span class="o">{</span>user<span class="o">}</span>/<span class="o">{</span>mydomain.com<span class="o">}</span>/public;
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    index index.html index.htm index.php;
+
+    charset utf-8;
+
+    location / <span class="o">{</span>
+        try_files <span class="nv">$uri</span> <span class="nv">$uri</span>/ /index.php?<span class="nv">$query_string</span>;
+    <span class="o">}</span>
+
+    location <span class="o">=</span> /favicon.ico <span class="o">{</span> access_log off; log_not_found off; <span class="o">}</span>
+    location <span class="o">=</span> /robots.txt  <span class="o">{</span> access_log off; log_not_found off; <span class="o">}</span>
+
+    access_log off;
+    error_log  /var/log/nginx/<span class="o">{</span>mydomain.com<span class="o">}</span>-error.log error;
+
+    error_page 404 /index.php;
+
+    location ~ <span class="se">\.</span>php<span class="nv">$ </span><span class="o">{</span>
+        fastcgi_param DB_PASS <span class="s2">"@!@##123LLkkp@"</span>;
+        fastcgi_param DB_USER <span class="s2">"test_user"</span>;
+        fastcgi_param DB_NAME <span class="s2">"test_db"</span>;
+        fastcgi_param DB_HOST <span class="s2">"localhost"</span>;
+        fastcgi_split_path_info ^<span class="o">(</span>.+<span class="se">\.</span>php<span class="o">)(</span>/.+<span class="o">)</span><span class="nv">$;</span>
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+    <span class="o">}</span>
+
+    location ~ /<span class="se">\.</span>ht <span class="o">{</span>
+        deny all;
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+
+<blockquote>
+<p>Create the symlink to point it to the domain</p>
+</blockquote>
+<pre class="highlight shell"><code>sudo ln -s /etc/nginx/sites-available/<span class="o">{</span>mydomainorIP<span class="o">}</span> /etc/nginx/sites-enabled/<span class="o">{</span>mydomainorIP<span class="o">}</span>
+</code></pre>
+
+<blockquote>
+<p>Restart server</p>
+</blockquote>
+<pre class="highlight shell"><code>sudo /etc/init.d/nginx retart
+</code></pre>
+
+<h1 id="laravel-configuration">Laravel Configuration</h1>
+
+<p>Go to your laravel directory in /home/{user}/ and run the following commands, and update the .env file</p>
+<pre class="highlight shell"><code>composer update
+sudo chmod -Rvc 777 storage
+sudo chmod -Rvc 777 bootstrap/cache
+php artisan key:generate
+</code></pre>
+
+<h1 id="php-exection-time-and-upload-limit">PHP exection time and upload limit</h1>
+
+<p>To change the php execution time limit and upload max size, do the following commands:</p>
+<pre class="highlight shell"><code>sudo vi /etc/php5/fpm/php.ini
+<span class="c">#change te following variables as you need</span>
+upload_max_filesize <span class="o">=</span> 2000M
+post_max_size <span class="o">=</span> 2100M
+
+
+sudo vi /etc/nginx/nginx.conf
+  http <span class="o">{</span>
+  <span class="c">#...</span>
+        client_max_body_size 2100m;
+  <span class="c">#...</span>
+  <span class="o">}</span>
+
+sudo vi /etc/php5/fpm/php.ini
+max_execution_time <span class="o">=</span> 999
+memory_limit <span class="o">=</span> 1024M
+
+
+sudo service php5-fpm reload
+sudo service nginx reload
+
+</code></pre>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
